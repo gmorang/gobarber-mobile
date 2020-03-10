@@ -9,18 +9,22 @@ import { Container, Title, List } from './styles';
 
 import api from '../../services/api';
 
-function Dashboard() {
+
+function Dashboard({ navigation }) {
   const [appointments, setAppointments] = React.useState([]);
 
+  async function loadAppointments() {
+    const response = await api.get('appointments', { params: { page: 1 } });
+
+    setAppointments(response.data);
+  }
+
   React.useEffect(() => {
-    async function loadAppointments() {
-      const response = await api.get('appointments', { params: { page: 1 } });
+    const isFocused = navigation.addListener('focus', () => loadAppointments());
 
-      setAppointments(response.data);
-    }
+    return isFocused;
 
-    loadAppointments()
-  }, [])
+  }, [navigation])
 
   async function handleCancel(id) {
     const response = await api.delete(`appointments/${id}`);

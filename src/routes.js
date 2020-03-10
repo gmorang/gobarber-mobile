@@ -72,7 +72,7 @@ function AppRoutes() {
 
 export default function Routes({ signedIn = true }) {
   return (
-    <NavigationContainer >
+    <NavigationContainer>
       <Stack.Navigator headerMode="none" initialRouteName={signedIn ? "App" : "SignIn"}>
         {signedIn ? <Stack.Screen name="App" component={AppRoutes} />
           : (
